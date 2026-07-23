@@ -1,0 +1,213 @@
+openapi: 3.1.0
+info:
+  title: CharacterQuilt Brand Profiles Branding API
+  version: '1.0'
+  description: Public, machine-readable brand-profiles data surface published by CharacterQuilt. Each catalogued company exposes an HTML page at /branding/{slug} and a JSON profile at /branding/{slug}.json containing a branding extraction — color scheme and palette, typography and font stacks, spacing, component styles, imagery, personality, and design-system signals — extracted from the company's live website. Intended for agents, designers, and AI tools. Read-only and unauthenticated. Discovered via /llms.txt. Not an official specification.
+  contact:
+    name: CharacterQuilt
+    email: hello@characterquilt.com
+    url: https://www.characterquilt.com
+servers:
+- url: https://www.characterquilt.com
+  description: Production
+tags:
+- name: Branding
+paths:
+  /branding/{slug}.json:
+    get:
+      operationId: getBrandProfile
+      summary: Get a company brand profile (JSON)
+      description: Return the full machine-readable branding extraction for a single company, keyed by its slug (e.g. `zapier`, `stripe`, `openai`).
+      tags:
+      - Branding
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        description: Company slug as listed in /llms.txt (lowercase, hyphenated).
+        schema:
+          type: string
+          example: zapier
+      responses:
+        '200':
+          description: Brand profile found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandProfile'
+        '404':
+          description: No brand profile exists for the given slug.
+  /branding/{slug}:
+    get:
+      operationId: getBrandProfilePage
+      summary: Get a company brand profile (HTML)
+      description: Human-readable HTML rendering of a company's brand profile.
+      tags:
+      - Branding
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          example: zapier
+      responses:
+        '200':
+          description: Brand profile page.
+          content:
+            text/html:
+              schema:
+                type: string
+        '404':
+          description: No brand profile exists for the given slug.
+components:
+  schemas:
+    Branding:
+      type: object
+      properties:
+        colorScheme:
+          type: string
+          example: light
+        fonts:
+          type: array
+          items:
+            type: object
+            properties:
+              family:
+                type: string
+              role:
+                type: string
+        colors:
+          type: object
+          properties:
+            primary:
+              type: string
+            secondary:
+              type: string
+            accent:
+              type: string
+            background:
+              type: string
+            textPrimary:
+              type: string
+            link:
+              type: string
+        typography:
+          type: object
+          properties:
+            fontFamilies:
+              type: object
+            fontStacks:
+              type: object
+            fontSizes:
+              type: object
+        spacing:
+          type: object
+          properties:
+            baseUnit:
+              type: integer
+            borderRadius:
+              type: string
+        components:
+          type: object
+          properties:
+            buttonPrimary:
+              type: object
+            buttonSecondary:
+              type: object
+        images:
+          type: object
+          properties:
+            logo:
+              type: string
+            favicon:
+              type: string
+            ogImage:
+              type: string
+            logoHref:
+              type: string
+        personality:
+          type: object
+          properties:
+            tone:
+              type: string
+            energy:
+              type: string
+            targetAudience:
+              type: string
+        designSystem:
+          type: object
+          properties:
+            framework:
+              type: string
+            componentLibrary:
+              type: string
+        confidence:
+          type: object
+          properties:
+            buttons:
+              type: number
+            colors:
+              type: number
+            overall:
+              type: number
+    BrandImage:
+      type: object
+      properties:
+        file:
+          type: string
+        alt:
+          type: string
+        source_url:
+          type: string
+        image_url:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        bytes:
+          type: integer
+    BrandProfile:
+      type: object
+      description: A company's extracted brand identity profile.
+      properties:
+        name:
+          type: string
+          example: Zapier
+        slug:
+          type: string
+          example: zapier
+        domain:
+          type: string
+          example: http://zapier.com
+        sources:
+          type: array
+          items:
+            type: string
+          example:
+          - forbes_cloud_100
+          - yc
+        branding:
+          $ref: '#/components/schemas/Branding'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandImage'
+        font_resources:
+          type: array
+          items:
+            type: object
+            properties:
+              family:
+                type: string
+              google_fonts_url:
+                type: string
+        google_fonts_css:
+          type: string
+        page_url:
+          type: string
+        agent_instructions:
+          type: string
+        page_markdown:
+          type: string

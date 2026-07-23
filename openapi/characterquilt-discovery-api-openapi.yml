@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  title: CharacterQuilt Brand Profiles Branding Discovery API
+  version: '1.0'
+  description: Public, machine-readable brand-profiles data surface published by CharacterQuilt. Each catalogued company exposes an HTML page at /branding/{slug} and a JSON profile at /branding/{slug}.json containing a branding extraction — color scheme and palette, typography and font stacks, spacing, component styles, imagery, personality, and design-system signals — extracted from the company's live website. Intended for agents, designers, and AI tools. Read-only and unauthenticated. Discovered via /llms.txt. Not an official specification.
+  contact:
+    name: CharacterQuilt
+    email: hello@characterquilt.com
+    url: https://www.characterquilt.com
+servers:
+- url: https://www.characterquilt.com
+  description: Production
+tags:
+- name: Discovery
+paths:
+  /llms.txt:
+    get:
+      operationId: getLlmsIndex
+      summary: Get the llms.txt catalog of brand profiles
+      description: Machine-readable llms.txt index listing every catalogued company and the link to its brand profile.
+      tags:
+      - Discovery
+      responses:
+        '200':
+          description: llms.txt document.
+          content:
+            text/plain:
+              schema:
+                type: string
