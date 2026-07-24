@@ -1,0 +1,16 @@
+{
+  "provider": "characterquilt",
+  "sources": [
+    "characterquilt-branding-api-openapi.yml",
+    "characterquilt-discovery-api-openapi.yml"
+  ],
+  "outputs": [
+    "characterquilt-branding-api-openapi.yml",
+    "characterquilt-discovery-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

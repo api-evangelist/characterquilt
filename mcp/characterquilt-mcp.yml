@@ -1,0 +1,21 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/characterquilt-branding-openapi.yml
+note: >-
+  CharacterQuilt publishes no official MCP server. This is a candidate tool list derived
+  one-to-one from the public brand-profiles OpenAPI operations, so an agent could query
+  the brand-profiles surface via MCP.
+server:
+  name: characterquilt-branding
+  transport: http
+tools:
+- name: get_brand_profile
+  description: Get the full machine-readable brand profile (colors, typography, logos, personality) for a company by slug.
+  source_operation: openapi/characterquilt-branding-openapi.yml#getBrandProfile
+- name: get_brand_profile_page
+  description: Get the HTML brand profile page for a company by slug.
+  source_operation: openapi/characterquilt-branding-openapi.yml#getBrandProfilePage
+- name: get_llms_index
+  description: List every catalogued company and the link to its brand profile.
+  source_operation: openapi/characterquilt-branding-openapi.yml#getLlmsIndex

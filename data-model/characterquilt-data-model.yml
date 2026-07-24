@@ -1,0 +1,39 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/characterquilt-branding-openapi.yml
+note: >-
+  Derived from the brand-profiles JSON shape observed live on 2026-07-18. The surface is
+  a single top-level entity (BrandProfile) keyed by slug, embedding nested branding,
+  image, and font-resource structures rather than referencing separate addressable
+  resources — so relationships are compositional (has_one/has_many by embedding), not
+  id-referenced.
+entities:
+- name: BrandProfile
+  key: slug
+  description: A company's extracted brand identity, keyed by slug.
+  relationships:
+  - type: has_one
+    target: Branding
+    via: branding
+  - type: has_many
+    target: BrandImage
+    via: images
+  - type: has_many
+    target: FontResource
+    via: font_resources
+- name: Branding
+  description: Extracted color scheme, palette, typography, spacing, components, imagery, personality, and design-system signals.
+  relationships:
+  - type: has_one
+    target: BrandColors
+    via: colors
+  - type: has_one
+    target: BrandTypography
+    via: typography
+  - type: has_many
+    target: BrandFont
+    via: fonts
+- name: BrandImage
+  description: A harvested image asset (logo, screenshot, OG image) with dimensions and source URL.
+- name: FontResource
+  description: A font family with its Google Fonts URL.

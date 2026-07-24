@@ -1,0 +1,15 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/characterquilt-branding-openapi.yml
+format: http-status
+note: >-
+  CharacterQuilt publishes no error reference. The brand-profiles surface is a plain
+  read API that returns a standard HTTP 404 when a slug is not catalogued; no
+  application/problem+json envelope is used. Derived from observed responses.
+problems:
+- status: 404
+  title: Brand profile not found
+  description: No brand profile exists for the requested company slug.
+  remediation: >-
+    Verify the slug against the catalog in /llms.txt; slugs are lowercase and hyphenated.
+  source_operation: openapi/characterquilt-branding-openapi.yml#getBrandProfile

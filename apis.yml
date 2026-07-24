@@ -1,8 +1,17 @@
 aid: characterquilt
-name: Characterquilt
-description: Characterquilt is a company surfaced as a portfolio company of y-combinator and added to
-  the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+name: CharacterQuilt
+description: >-
+  CharacterQuilt is an AI-native marketing infrastructure company (Y Combinator
+  Spring 2026) building computer-use agents that design and deploy enterprise
+  marketing campaigns end-to-end. Marketing teams submit a brief and CharacterQuilt's
+  agents handle audience segmentation, on-brand creative generation, brand validation,
+  and direct deployment into existing tools such as HubSpot, Marketo, WordPress, and
+  LinkedIn — collapsing work that once took multiple agencies, ten tools, and six weeks
+  into roughly an hour. Alongside the product, CharacterQuilt publishes a public,
+  machine-readable brand-profiles data surface at /branding/<slug>.json: colors,
+  typography, logos, components, and personality extracted from thousands of companies'
+  live websites, intended for agents, designers, and AI tools. Founded by Bhairav Mehta
+  (CEO) and Clint Burgess and based in San Francisco.
 url: https://raw.githubusercontent.com/api-evangelist/characterquilt/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,14 +19,97 @@ x-backed-by:
 - y-combinator
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://cdn.prod.website-files.com/678e847c65f5a9cc363424b0/68d6b1531e1346581672508b_Open%20Graph%20Image.jpg
 tags:
 - Company
-apis: []
+- Marketing
+- Artificial Intelligence
+- AI Agents
+- Marketing Automation
+- Campaign Management
+- Brand Identity
+- Computer Use Agents
+- Y Combinator
+- Data
+apis:
+- aid: characterquilt:characterquilt-branding-api
+  name: CharacterQuilt Branding API
+  description: The Branding API from CharacterQuilt — 2 operation(s) for branding.
+  humanURL: https://www.characterquilt.com/llms.txt
+  baseURL: https://www.characterquilt.com
+  tags:
+  - Branding
+  properties:
+  - type: OpenAPI
+    url: openapi/characterquilt-branding-api-openapi.yml
+  - type: LLMsTxt
+    url: llms/characterquilt-llms.txt
+  - type: ErrorCatalog
+    url: errors/characterquilt-problem-types.yml
+  - type: DataModel
+    url: data-model/characterquilt-data-model.yml
+- aid: characterquilt:characterquilt-discovery-api
+  name: CharacterQuilt Discovery API
+  description: The Discovery API from CharacterQuilt — 1 operation(s) for discovery.
+  humanURL: https://www.characterquilt.com/llms.txt
+  baseURL: https://www.characterquilt.com
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/characterquilt-discovery-api-openapi.yml
+  - type: LLMsTxt
+    url: llms/characterquilt-llms.txt
+  - type: ErrorCatalog
+    url: errors/characterquilt-problem-types.yml
+  - type: DataModel
+    url: data-model/characterquilt-data-model.yml
+common:
+- type: Website
+  url: https://www.characterquilt.com
+- type: DeveloperPortal
+  url: https://www.characterquilt.com/llms.txt
+- type: LLMsTxt
+  url: https://www.characterquilt.com/llms.txt
+- type: Blog
+  url: https://www.characterquilt.com/blog
+- type: Pricing
+  url: https://www.characterquilt.com/pricing
+- type: SignUp
+  url: https://cal.com/clintvburgess/website-demo-request
+- type: TermsOfService
+  url: https://www.characterquilt.com/terms
+- type: PrivacyPolicy
+  url: https://www.characterquilt.com/privacy
+- type: Support
+  url: mailto:hello@characterquilt.com
+- type: DomainSecurity
+  url: security/characterquilt-domain-security.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/characterquilt/
+- type: Twitter
+  url: https://twitter.com/characterquilt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
