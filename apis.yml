@@ -79,6 +79,8 @@ apis:
   - type: DataModel
     url: data-model/characterquilt-data-model.yml
 common:
+- type: MCPServer
+  url: mcp/characterquilt-mcp.yml
 - type: Website
   url: https://www.characterquilt.com
 - type: DeveloperPortal
