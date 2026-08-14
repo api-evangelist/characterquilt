@@ -32,7 +32,7 @@ accessModel:
   method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-13'
 image: https://cdn.prod.website-files.com/678e847c65f5a9cc363424b0/68d6b1531e1346581672508b_Open%20Graph%20Image.jpg
 tags:
 - Company
@@ -45,6 +45,7 @@ tags:
 - Computer Use Agents
 - Y Combinator
 - Data
+- MCP
 apis:
 - aid: characterquilt:characterquilt-branding-api
   name: CharacterQuilt Branding API
@@ -62,6 +63,8 @@ apis:
     url: errors/characterquilt-problem-types.yml
   - type: DataModel
     url: data-model/characterquilt-data-model.yml
+  - type: Overlay
+    url: overlays/characterquilt-branding-api-overlay.yaml
 - aid: characterquilt:characterquilt-discovery-api
   name: CharacterQuilt Discovery API
   description: The Discovery API from CharacterQuilt — 1 operation(s) for discovery.
@@ -78,13 +81,42 @@ apis:
     url: errors/characterquilt-problem-types.yml
   - type: DataModel
     url: data-model/characterquilt-data-model.yml
+  - type: Overlay
+    url: overlays/characterquilt-discovery-api-overlay.yaml
+- aid: characterquilt:characterquilt-mcp-server
+  name: CharacterQuilt MCP Server
+  description: >-
+    CharacterQuilt's hosted Model Context Protocol server, the agent-facing surface
+    of its marketing agent runtime. Live and OAuth-protected at
+    https://mcp.characterquilt.com/api/mcp: an anonymous request returns HTTP 401
+    with a spec-correct RFC 9728 challenge pointing at published protected-resource
+    metadata, which declares bearer-header auth and five scopes —
+    read:design_brain, write:generated_artifacts, publish:public_file,
+    read:agent_work and write:agent_work. The tool list is auth-gated, so no tool
+    names are recorded. CharacterQuilt publishes no documentation for this surface;
+    it was found by DNS enumeration and confirmed by the server's own metadata and
+    by the company's engineering job posting, which names "the API, CLI, and MCP
+    surfaces around our agent runtime".
+  humanURL: https://www.characterquilt.com
+  baseURL: https://mcp.characterquilt.com
+  tags:
+  - MCP
+  - AI Agents
+  - Marketing Automation
+  properties:
+  - type: MCPServer
+    url: mcp/characterquilt-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/characterquilt-tool-crosswalk.yml
+  - type: OAuthScopes
+    url: scopes/characterquilt-scopes.yml
+  - type: Authentication
+    url: authentication/characterquilt-authentication.yml
 common:
 - type: MCPServer
   url: mcp/characterquilt-mcp.yml
 - type: Website
   url: https://www.characterquilt.com
-- type: DeveloperPortal
-  url: https://www.characterquilt.com/llms.txt
 - type: LLMsTxt
   url: https://www.characterquilt.com/llms.txt
 - type: Blog
@@ -101,6 +133,30 @@ common:
   url: mailto:hello@characterquilt.com
 - type: DomainSecurity
   url: security/characterquilt-domain-security.yml
+- type: WellKnown
+  url: well-known/characterquilt-well-known.yml
+- type: Authentication
+  url: authentication/characterquilt-authentication.yml
+- type: OAuthScopes
+  url: scopes/characterquilt-scopes.yml
+- type: ToolCrosswalk
+  url: mcp/characterquilt-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conventions
+  url: conventions/characterquilt-conventions.yml
+- type: Conformance
+  url: conformance/characterquilt-conformance.yml
+- type: Lifecycle
+  url: lifecycle/characterquilt-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/characterquilt-rate-limits.yml
+- type: Plans
+  url: plans/characterquilt-plans-pricing.yml
+- type: Packages
+  url: packages/characterquilt-packages.yml
+- type: GitHubOrganization
+  url: https://github.com/characterquilt
 - type: LinkedIn
   url: https://www.linkedin.com/company/characterquilt/
 - type: Twitter
@@ -111,7 +167,13 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 19
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Round 2. Found a live hosted MCP server at https://mcp.characterquilt.com/api/mcp
+    that round 1 missed — OAuth-protected, with real RFC 9728 protected-resource
+    metadata and five published scopes — plus a provider-published Agent Skill in the
+    company's GitHub org. Still no OpenAPI anywhere: all spec paths 404 on both
+    hosts, and api./app./docs. subdomains do not resolve.
