@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.characterquilt.com/pricing
+note: >-
+  CharacterQuilt publishes a pricing page with three named tiers but NO PRICES,
+  no currency, no billing period, no quotas and no overage terms — every tier routes
+  to a sales conversation. The tiers are recorded because they are genuinely
+  published; the missing numbers are recorded as null rather than estimated. No
+  tier mentions API, MCP or developer access.
+plan_count: 3
+priced_plan_count: 0
+currency: null
+billing_period: null
+free_tier: false
+free_trial: false
+self_serve: false
+plans:
+- name: Campaigns
+  price: null
+  currency: null
+  billing_period: null
+  positioning: Growth-stage teams replacing agency work
+  included:
+  - Design Agent (on-brand creative generation)
+  - Data Agent (enrichment, targeting, segmentation)
+  - Deployment agents for HubSpot, Marketo, Salesforce, WordPress, Pardot, Mailchimp
+    and others
+  - Dedicated onboarding & support
+  quota: null
+  overage: null
+  limits: null
+  cta: contact sales
+- name: AI Marketing Team
+  price: null
+  currency: null
+  billing_period: null
+  most_popular: true
+  positioning: Mid-market teams with 2-5 campaign channels
+  included:
+  - Everything in Campaigns
+  - Unlimited campaigns
+  - Video & motion creative
+  - Brand governance engine
+  - Custom agent workflows
+  - Strategic campaign planning
+  - Dedicated success team
+  quota: unlimited campaigns (stated, unqualified)
+  overage: null
+  limits: null
+  cta: contact sales
+- name: Enterprise
+  price: null
+  currency: null
+  billing_period: null
+  positioning: Enterprise and multi-brand organizations
+  included:
+  - Everything in AI Marketing Team
+  - Custom integrations
+  - Downstream network support
+  - SSO & compliance controls
+  - Dedicated success team
+  quota: null
+  overage: null
+  limits: null
+  cta: contact sales
+api_access:
+  mentioned_in_any_tier: false
+  detail: >-
+    No tier names API, MCP, agent-runtime or developer access as an entitlement,
+    even though a hosted OAuth-protected MCP server is live at
+    mcp.characterquilt.com. There is no published path for a buyer to purchase
+    programmatic access.
+signup:
+  self_serve: false
+  url: https://cal.com/clintvburgess/website-demo-request
+  detail: The only conversion path is a demo booking on a Cal.com link; there is no
+    account creation, no login and no free tier.
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://www.characterquilt.com/pricing
+  http_status: 200

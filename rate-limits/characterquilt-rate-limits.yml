@@ -1,0 +1,55 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  response headers observed 2026-08-13 on
+  https://www.characterquilt.com/branding/stripe.json,
+  https://www.characterquilt.com/llms.txt and
+  https://mcp.characterquilt.com/api/mcp; no rate-limit documentation exists to
+  search
+note: >-
+  CharacterQuilt documents no rate limits and returns no rate-limit headers. An
+  agent calling either surface has no runtime signal at all — no budget, no
+  remaining count, no reset, and no Retry-After to obey if it is ever throttled.
+  This is a measured zero, verified on the wire, not an unchecked field.
+limit_count: 0
+limits: []
+response_headers:
+  observed: []
+  looked_for:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - RateLimit
+  - RateLimit-Policy
+  - Retry-After
+  detail: >-
+    None present. The public data surface returns only Vercel cache/trace headers
+    (age, etag, x-vercel-cache, x-vercel-id) and HSTS. The MCP host returns only
+    Cloudflare headers (cf-ray, cf-cache-status, report-to, nel) plus the RFC 9728
+    WWW-Authenticate challenge.
+status_on_exhaustion: unknown
+evidence:
+- url: https://www.characterquilt.com/branding/stripe.json
+  http_status: 200
+  rate_limit_headers: none
+  fetched: '2026-08-13'
+- url: https://mcp.characterquilt.com/api/mcp
+  http_status: 401
+  rate_limit_headers: none
+  fetched: '2026-08-13'
+- url: https://www.characterquilt.com/robots.txt
+  http_status: 200
+  note: >-
+    The nearest thing to a stated access constraint is robots.txt — "Disallow:
+    /api/" and "Disallow: /*?*" — which is a crawl directive, not a rate limit, and
+    does not bind an API client.
+  fetched: '2026-08-13'
+gaps:
+- issue: no-documented-limits
+  detail: There is no API reference or developer portal on which limits could be
+    published (/developers, /docs, /api-docs all 404).
+- issue: no-runtime-signal
+  detail: >-
+    Because no headers are emitted, a well-behaved agent cannot back off
+    proactively; it can only discover a limit by being cut off, and the response it
+    would receive is undefined.

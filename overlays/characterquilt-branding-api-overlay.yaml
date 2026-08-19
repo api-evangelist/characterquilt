@@ -1,0 +1,83 @@
+# generated: '2026-08-13'
+# method: generated
+# source: openapi/characterquilt-branding-api-openapi.yml + live probes 2026-08-13
+# note: >-
+#   OpenAPI Overlay 1.0.0 capturing API Evangelist enhancements to the brand-profiles
+#   Branding API description. Applied on top of the original; the original is never
+#   mutated. Every value added here was observed on the wire (response headers, CORS,
+#   404 body) or is a pointer to an artifact in this repo.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — CharacterQuilt Branding API
+  version: 1.0.0
+extends: openapi/characterquilt-branding-api-openapi.yml
+actions:
+- target: $.info
+  description: Record provenance and the absence of a provider-published contract.
+  update:
+    x-provenance:
+      authored-by: API Evangelist
+      method: generated
+      basis: live responses observed from https://www.characterquilt.com/branding/{slug}.json
+      note: >-
+        CharacterQuilt publishes no OpenAPI. Probed /openapi.json, /openapi.yaml,
+        /swagger.json, /v1/openapi.json, /api-docs, /docs, /redoc and
+        /api/openapi.json on www.characterquilt.com and characterquilt.com — all
+        404. api./app./docs./developer. subdomains do not resolve.
+    x-artifacts:
+      conventions: conventions/characterquilt-conventions.yml
+      errors: errors/characterquilt-problem-types.yml
+      lifecycle: lifecycle/characterquilt-lifecycle.yml
+      rate-limits: rate-limits/characterquilt-rate-limits.yml
+      authentication: authentication/characterquilt-authentication.yml
+      data-model: data-model/characterquilt-data-model.yml
+- target: $
+  description: State the security posture explicitly — this surface takes no credential.
+  update:
+    security: []
+    x-authentication: none
+    x-cors:
+      access-control-allow-origin: '*'
+      observed: '2026-08-13'
+- target: $.paths['/branding/{slug}.json'].get
+  description: Add the observed caching and tracing semantics, and the real response
+    headers.
+  update:
+    x-caching:
+      etag: true
+      last-modified: true
+      cache-control: public, max-age=0, must-revalidate
+      note: Conditional requests are supported and are the only way to avoid refetching
+        a ~26 KB document.
+    x-response-headers:
+    - name: etag
+      description: Strong entity tag; use with If-None-Match.
+    - name: last-modified
+      description: Use with If-Modified-Since.
+    - name: content-disposition
+      description: 'inline; filename="{slug}.json" — the surface is served as a static
+        file.'
+    - name: x-vercel-id
+      description: Platform trace identifier. Not a CharacterQuilt request id and has
+        no documented support path.
+    x-rate-limit:
+      documented: false
+      headers: []
+      note: No rate-limit headers are returned. See rate-limits/characterquilt-rate-limits.yml.
+- target: $.paths['/branding/{slug}.json'].get.responses['404']
+  description: Record the real 404 body shape — it is plain text, not JSON.
+  update:
+    content:
+      text/plain:
+        schema:
+          type: string
+        example: 'The page could not be found  NOT_FOUND  iad1::xxxxx-0000000000'
+    x-note: >-
+      Not RFC 9457 problem+json. A client cannot distinguish an unknown slug from a
+      withdrawn one.
+- target: $.paths['/branding/{slug}']
+  description: Note that format selection is by path extension, not content negotiation.
+  update:
+    x-content-negotiation: >-
+      The .json extension selects the machine-readable representation; the
+      extensionless path returns HTML. The Accept header is not honoured.

@@ -1,0 +1,69 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  mcp/characterquilt-mcp.yml, openapi/characterquilt-branding-api-openapi.yml,
+  openapi/characterquilt-discovery-api-openapi.yml,
+  https://mcp.characterquilt.com/.well-known/oauth-protected-resource
+note: >-
+  CharacterQuilt has both an MCP server and OpenAPI in the repo, so the crosswalk is
+  emitted — but the honest finding is that THEY DO NOT OVERLAP. The MCP server
+  (mcp.characterquilt.com) fronts the private agent runtime and is OAuth-gated, so
+  its tool list could not be enumerated; the OpenAPI describes the public,
+  unauthenticated brand-profiles data surface on www.characterquilt.com, which has
+  no MCP exposure. There is not a single tool-to-operation binding to record, and
+  none has been invented. crosswalk[] is empty by measurement, not by omission.
+surfaces:
+  openapi:
+  - file: openapi/characterquilt-branding-api-openapi.yml
+    host: https://www.characterquilt.com
+    gated: false
+    operations: 2
+  - file: openapi/characterquilt-discovery-api-openapi.yml
+    host: https://www.characterquilt.com
+    gated: false
+    operations: 1
+  graphql: null
+  mcp:
+    url: https://mcp.characterquilt.com/api/mcp
+    gated: true
+    gate: OAuth 2.1 bearer (RFC 9728 protected-resource metadata); tools/list returns
+      401
+    tools_known: 0
+crosswalk: []
+mcp_only:
+- tool: unknown
+  reason: >-
+    tools/list is OAuth-gated (401). The five published scopes — read:design_brain,
+    write:generated_artifacts, publish:public_file, read:agent_work,
+    write:agent_work — describe capabilities (brand-model reads, agent-run
+    read/write, artifact writes, public publishing) that have NO public REST
+    counterpart anywhere on www.characterquilt.com. Whatever the tools are, they are
+    MCP-only.
+  confidence: high
+rest_only:
+- operationId: getBrandProfile
+  spec: openapi/characterquilt-branding-api-openapi.yml
+  path: /branding/{slug}.json
+  reason: Public brand-profiles data surface; not exposed by the MCP server.
+- operationId: getBrandProfilePage
+  spec: openapi/characterquilt-branding-api-openapi.yml
+  path: /branding/{slug}
+  reason: Public brand-profiles data surface; not exposed by the MCP server.
+- operationId: getLlmsIndex
+  spec: openapi/characterquilt-discovery-api-openapi.yml
+  path: /llms.txt
+  reason: Discovery index for the public brand-profiles surface; not exposed by the
+    MCP server.
+coverage:
+  rest_operations: 3
+  mcp_tools_known: 0
+  mcp_tools_gated: true
+  bound: 0
+  mcp_only: 0
+  rest_only: 3
+  binding_rate: 0.0
+  interpretation: >-
+    Zero overlap. The agent surface and the public data surface are disjoint
+    products. Any future round that obtains an authenticated MCP token should
+    re-derive this file — the crosswalk is expected to stay empty on the REST side
+    and to fill entirely under mcp_only.

@@ -1,0 +1,16 @@
+{
+  "resource": "https://mcp.characterquilt.com/api/mcp",
+  "authorization_servers": [
+    "https://characterquilt-review-beta.vercel.app"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "scopes_supported": [
+    "read:design_brain",
+    "write:generated_artifacts",
+    "publish:public_file",
+    "read:agent_work",
+    "write:agent_work"
+  ]
+}

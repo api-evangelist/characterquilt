@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CharacterQuilt Brand Profiles Branding Discovery API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Discovery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the llms.txt catalog of brand profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.characterquilt.com/llms.txt"
+          },
+          "docs": "Machine-readable llms.txt index listing every catalogued company and the link to its brand profile."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

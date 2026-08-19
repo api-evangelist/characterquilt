@@ -1,19 +1,74 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
-source: live probe of https://www.characterquilt.com/.well-known/*
-host: https://www.characterquilt.com
-documents:
-- path: /.well-known/security.txt
-  status: 404
-- path: /.well-known/openid-configuration
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
+source: live probe of https://www.characterquilt.com/.well-known/* and https://mcp.characterquilt.com/.well-known/*
+hosts:
+- host: https://www.characterquilt.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://mcp.characterquilt.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: well-known/characterquilt-oauth-protected-resource.json
+    standard: RFC 9728 (OAuth 2.0 Protected Resource Metadata)
+    note: >-
+      Real machine-readable document. Names the MCP resource
+      https://mcp.characterquilt.com/api/mcp, bearer-header auth, and five OAuth
+      scopes. This is the only /.well-known hit CharacterQuilt serves anywhere.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    hit: false
+    note: >-
+      NOT a document. Returns the Next.js/SPA HTML application shell (54 KB,
+      <!DOCTYPE html>), not RFC 8414 authorization-server metadata. Recorded as a
+      miss.
+  - path: /.well-known/agent-card.json
+    status: 401
+  - path: /.well-known/agent.json
+    status: 401
+  - path: /.well-known/mcp.json
+    status: 401
+robots:
+- host: https://www.characterquilt.com
+  path: /robots.txt
+  status: 200
+  content_signal: null
+  note: 'Plain robots.txt: Allow /, Disallow /api/ and /*?*, sitemap declared. No AI
+    preference signals.'
+- host: https://mcp.characterquilt.com
+  path: /robots.txt
+  status: 200
+  content_signal: search=yes,ai-train=no,use=reference
+  authored_by: Cloudflare Managed Content
+  note: >-
+    The MCP host is fronted by Cloudflare and serves Cloudflare's managed
+    content-signals block (Content-Signal: search=yes,ai-train=no,use=reference plus
+    Disallow for Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot,
+    Google-Extended, GPTBot, meta-externalagent). Recorded for the record but NOT
+    wired as a ContentSignal pointer: it is a platform-managed default on one
+    subdomain, not a policy CharacterQuilt authored, and the primary host
+    www.characterquilt.com carries no content signal at all.
 notes: >-
-  No /.well-known discovery documents are published. CharacterQuilt does publish a
-  machine-readable discovery surface at /llms.txt (200) cataloguing its brand profiles;
-  captured separately in llms/characterquilt-llms.txt.
+  CharacterQuilt serves exactly one real /.well-known document — the RFC 9728 OAuth
+  protected-resource metadata on the MCP host, which is how the hosted MCP server
+  advertises its authorization requirements. Every /.well-known path on the primary
+  marketing/data host returns a hard 404 (Next.js NOT_FOUND, 79 bytes — not an SPA
+  catch-all). The company's other machine-readable discovery surface is /llms.txt
+  (200), captured separately in llms/characterquilt-llms.txt.

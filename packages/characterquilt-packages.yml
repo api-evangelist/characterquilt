@@ -1,0 +1,47 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, github.com/characterquilt,
+  https://www.characterquilt.com (no developer portal published)
+note: >-
+  CharacterQuilt publishes NO client libraries. Searched and found nothing — this is
+  a measured zero, not an unchecked field.
+package_count: 0
+official_package_count: 0
+packages: []
+searched:
+- registry: npm
+  query: characterquilt
+  url: https://registry.npmjs.org/-/v1/search?text=characterquilt
+  results: 0
+  checked: '2026-08-13'
+- registry: pypi
+  query: characterquilt, character-quilt, cq-mcp
+  results: 0
+  http_status: 404
+  checked: '2026-08-13'
+- registry: github
+  query: org:characterquilt
+  url: https://api.github.com/orgs/characterquilt/repos
+  results: 1
+  note: >-
+    The organization's single public repo is `dinner-play-skill`, a Claude Code
+    Agent Skill (captured under skills/), not a client library. It is
+    documentation + markdown, has no package manifest, and is not published to any
+    registry.
+  checked: '2026-08-13'
+- registry: docs
+  query: developer portal / SDK page
+  results: 0
+  note: >-
+    /developers, /docs, /docs/api and /api-docs all return 404 on
+    www.characterquilt.com. There is no SDK page to derive candidates from.
+  checked: '2026-08-13'
+gaps:
+- issue: mcp-server-has-no-client-library
+  detail: >-
+    CharacterQuilt runs a hosted OAuth-protected MCP server at
+    https://mcp.characterquilt.com/api/mcp but ships no package of any kind — no
+    npm/pypi client, no stdio MCP package, no CLI binary. The YC engineering job
+    posting references "the API, CLI, and MCP surfaces around our agent runtime",
+    so a CLI exists internally; none of it is distributed.

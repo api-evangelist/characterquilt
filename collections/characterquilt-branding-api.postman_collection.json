@@ -1,0 +1,270 @@
+{
+  "item": [
+    {
+      "id": "df1cecfc-941c-43ab-bae2-064b50d6df74",
+      "name": "Branding",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e463c4a6-7199-45a2-81f3-c3df69881180",
+          "name": "Get a company brand profile (JSON)",
+          "request": {
+            "name": "Get a company brand profile (JSON)",
+            "description": {
+              "content": "Return the full machine-readable branding extraction for a single company, keyed by its slug (e.g. `zapier`, `stripe`, `openai`).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "branding",
+                "{{slug}}.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "888a5d9f-4489-4285-b4e5-cfa2126d75e9",
+              "name": "Brand profile found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "branding",
+                    "{{slug}}.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Zapier\",\n  \"slug\": \"zapier\",\n  \"domain\": \"http://zapier.com\",\n  \"sources\": [\n    \"forbes_cloud_100\",\n    \"yc\"\n  ],\n  \"branding\": {\n    \"colorScheme\": \"light\",\n    \"fonts\": [\n      {\n        \"family\": \"string\",\n        \"role\": \"string\"\n      },\n      {\n        \"family\": \"string\",\n        \"role\": \"string\"\n      }\n    ],\n    \"colors\": {\n      \"primary\": \"string\",\n      \"secondary\": \"string\",\n      \"accent\": \"string\",\n      \"background\": \"string\",\n      \"textPrimary\": \"string\",\n      \"link\": \"string\"\n    },\n    \"typography\": {\n      \"fontFamilies\": {},\n      \"fontStacks\": {},\n      \"fontSizes\": {}\n    },\n    \"spacing\": {\n      \"baseUnit\": 7637,\n      \"borderRadius\": \"string\"\n    },\n    \"components\": {\n      \"buttonPrimary\": {},\n      \"buttonSecondary\": {}\n    },\n    \"images\": {\n      \"logo\": \"string\",\n      \"favicon\": \"string\",\n      \"ogImage\": \"string\",\n      \"logoHref\": \"string\"\n    },\n    \"personality\": {\n      \"tone\": \"string\",\n      \"energy\": \"string\",\n      \"targetAudience\": \"string\"\n    },\n    \"designSystem\": {\n      \"framework\": \"string\",\n      \"componentLibrary\": \"string\"\n    },\n    \"confidence\": {\n      \"buttons\": 8607.073324673112,\n      \"colors\": 7199.237075721877,\n      \"overall\": 582.9847116106135\n    }\n  },\n  \"images\": [\n    {\n      \"file\": \"string\",\n      \"alt\": \"string\",\n      \"source_url\": \"string\",\n      \"image_url\": \"string\",\n      \"width\": 2847,\n      \"height\": 5146,\n      \"bytes\": 570\n    },\n    {\n      \"file\": \"string\",\n      \"alt\": \"string\",\n      \"source_url\": \"string\",\n      \"image_url\": \"string\",\n      \"width\": 4752,\n      \"height\": 7927,\n      \"bytes\": 6163\n    }\n  ],\n  \"font_resources\": [\n    {\n      \"family\": \"string\",\n      \"google_fonts_url\": \"string\"\n    },\n    {\n      \"family\": \"string\",\n      \"google_fonts_url\": \"string\"\n    }\n  ],\n  \"google_fonts_css\": \"string\",\n  \"page_url\": \"string\",\n  \"agent_instructions\": \"string\",\n  \"page_markdown\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e609d862-8e5b-4ffc-b865-f0bf5868ec55",
+              "name": "No brand profile exists for the given slug.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "branding",
+                    "{{slug}}.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b222683-02db-4184-8c24-60d7e145ee52",
+          "name": "Get a company brand profile (HTML)",
+          "request": {
+            "name": "Get a company brand profile (HTML)",
+            "description": {
+              "content": "Human-readable HTML rendering of a company's brand profile.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "branding",
+                ":slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b2da44c9-64ef-4595-b031-eb2a99518307",
+              "name": "Brand profile page.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "branding",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c7d55fb2-3b41-43ba-86d6-8d288632810c",
+              "name": "No brand profile exists for the given slug.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "branding",
+                    ":slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.characterquilt.com",
+      "key": "baseUrl"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) Company slug as listed in /llms.txt (lowercase, hyphenated).",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<string>",
+      "key": "slug"
+    }
+  ],
+  "info": {
+    "_postman_id": "f0ebdadd-99b0-4fbc-8352-f06d43bd681d",
+    "name": "CharacterQuilt Brand Profiles Branding API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public, machine-readable brand-profiles data surface published by CharacterQuilt. Each catalogued company exposes an HTML page at /branding/{slug} and a JSON profile at /branding/{slug}.json containing a branding extraction — color scheme and palette, typography and font stacks, spacing, component styles, imagery, personality, and design-system signals — extracted from the company's live website. Intended for agents, designers, and AI tools. Read-only and unauthenticated. Discovered via /llms.txt. Not an official specification.\n\nContact Support:\n Name: CharacterQuilt\n Email: hello@characterquilt.com",
+      "type": "text/plain"
+    }
+  }
+}

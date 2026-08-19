@@ -1,0 +1,67 @@
+# generated: '2026-08-13'
+# method: generated
+# source: openapi/characterquilt-discovery-api-openapi.yml + live probes 2026-08-13
+# note: >-
+#   OpenAPI Overlay 1.0.0 capturing API Evangelist enhancements to the brand-profiles
+#   Discovery API description. Applied on top of the original; the original is never
+#   mutated. Every value added here was observed on the wire.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — CharacterQuilt Discovery API
+  version: 1.0.0
+extends: openapi/characterquilt-discovery-api-openapi.yml
+actions:
+- target: $.info
+  description: Record provenance and the discovery posture.
+  update:
+    x-provenance:
+      authored-by: API Evangelist
+      method: generated
+      basis: https://www.characterquilt.com/llms.txt observed HTTP 200, 350254 bytes,
+        6251 lines
+      note: >-
+        /llms.txt is CharacterQuilt's only published machine-readable discovery
+        document. Every /.well-known path on this host returns 404; the single
+        /.well-known hit anywhere on the company's infrastructure is the RFC 9728
+        OAuth protected-resource metadata on mcp.characterquilt.com, which describes
+        a different surface entirely.
+    x-artifacts:
+      llms-txt: llms/characterquilt-llms.txt
+      well-known: well-known/characterquilt-well-known.yml
+      conventions: conventions/characterquilt-conventions.yml
+- target: $
+  description: State the security posture explicitly.
+  update:
+    security: []
+    x-authentication: none
+- target: $.paths['/llms.txt'].get
+  description: Record the real size and the absence of pagination — this is the whole
+    catalog in one response.
+  update:
+    x-payload:
+      bytes: 350254
+      lines: 6251
+      observed: '2026-08-13'
+      note: >-
+        The entire catalog is delivered as a single document. There is no paginated
+        listing, no index endpoint, no cursor and no Link header — a consumer that
+        wants one slug must either already know it or download 350 KB.
+    x-caching:
+      note: Use conditional requests; the document is served with standard HTTP caching
+        headers.
+    x-rate-limit:
+      documented: false
+      headers: []
+- target: $.paths['/llms.txt'].get.responses['200']
+  description: Document the llms.txt structure so an agent knows how to parse it.
+  update:
+    x-format:
+      standard: llms.txt
+      structure: >-
+        H1 title, blockquote summary, "## How to use" section describing the
+        /branding/<slug> and /branding/<slug>.json convention, then "## Brand
+        profiles" — a flat markdown link list of one entry per company in the form
+        "- [Name](/branding/slug): #PRIMARYHEX · Font Family".
+      derivable: >-
+        Each line yields a company name, a slug (and therefore a profile URL), a
+        primary brand colour and a primary font without fetching the profile.

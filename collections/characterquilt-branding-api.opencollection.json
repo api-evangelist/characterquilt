@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CharacterQuilt Brand Profiles Branding API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Branding",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a company brand profile (JSON)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.characterquilt.com/branding/:slug.json",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Company slug as listed in /llms.txt (lowercase, hyphenated)."
+              }
+            ]
+          },
+          "docs": "Return the full machine-readable branding extraction for a single company, keyed by its slug (e.g. `zapier`, `stripe`, `openai`)."
+        },
+        {
+          "info": {
+            "name": "Get a company brand profile (HTML)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.characterquilt.com/branding/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Human-readable HTML rendering of a company's brand profile."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,67 @@
+generated: '2026-08-13'
+method: probed
+source: https://mcp.characterquilt.com/.well-known/oauth-protected-resource
+docs: null
+note: >-
+  Scopes read verbatim from CharacterQuilt's own RFC 9728 OAuth Protected Resource
+  Metadata document, served at the MCP host and returned HTTP 200 with
+  content-type application/json. CharacterQuilt publishes no scope reference page,
+  so the descriptions below are read from the scope names themselves and are marked
+  as such — nothing here is invented beyond naming what a read:/write:/publish: verb
+  on a named resource means. The scopes are NOT declared in any OpenAPI
+  securityScheme; the protected-resource metadata is the only place they appear.
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://mcp.characterquilt.com/.well-known/oauth-protected-resource
+  http_status: 200
+  content_type: application/json
+  raw_file: well-known/characterquilt-oauth-protected-resource.json
+resource: https://mcp.characterquilt.com/api/mcp
+authorization_servers:
+- https://characterquilt-review-beta.vercel.app
+bearer_methods_supported:
+- header
+scope_count: 5
+scopes:
+- name: read:design_brain
+  access: read
+  resource: design_brain
+  description: >-
+    Read access to the "design brain" — CharacterQuilt's per-customer brand model
+    (the brand/creative knowledge its Design Agent operates from). Scope name is
+    published; CharacterQuilt documents no per-scope reference.
+- name: write:generated_artifacts
+  access: write
+  resource: generated_artifacts
+  description: >-
+    Write access to generated artifacts — the creative output the agents produce
+    (emails, ads, landing pages, one-pagers, decks).
+- name: publish:public_file
+  access: publish
+  resource: public_file
+  description: >-
+    Publish a file to a public location. The only scope whose verb is neither read
+    nor write, and the one with an externally visible consequence.
+- name: read:agent_work
+  access: read
+  resource: agent_work
+  description: Read access to agent work — the runs/tasks the agents execute.
+- name: write:agent_work
+  access: write
+  resource: agent_work
+  description: Write access to agent work — creating or modifying agent runs/tasks.
+gaps:
+- issue: no-scope-reference-page
+  detail: >-
+    No public documentation maps these scopes to operations, so a client cannot
+    determine least privilege for a given task. The scope strings are only
+    discoverable by reading the protected-resource metadata.
+- issue: authorization-server-metadata-missing
+  detail: >-
+    authorization_servers names https://characterquilt-review-beta.vercel.app — a
+    Vercel preview deployment — and that host does NOT serve RFC 8414
+    authorization-server metadata: both /.well-known/oauth-authorization-server and
+    /.well-known/openid-configuration return HTTP 200 with the Next.js HTML app
+    shell, not JSON. The OAuth discovery chain therefore terminates: an MCP client
+    that follows the WWW-Authenticate resource_metadata pointer correctly cannot
+    reach an authorization endpoint. Probed 2026-08-13.

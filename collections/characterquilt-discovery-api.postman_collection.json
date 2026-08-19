@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "15110e68-cfae-4893-8cb1-114b9538c926",
+      "name": "Discovery",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2e3d3770-f9bd-4d3f-ae3b-e15c00774b63",
+          "name": "Get the llms.txt catalog of brand profiles",
+          "request": {
+            "name": "Get the llms.txt catalog of brand profiles",
+            "description": {
+              "content": "Machine-readable llms.txt index listing every catalogued company and the link to its brand profile.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "llms.txt"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "15d2ac66-3ef5-4162-b1d1-5cf482c1bce7",
+              "name": "llms.txt document.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "llms.txt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.characterquilt.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f1fffcf8-60ee-446d-a4a0-53f8bb5122c5",
+    "name": "CharacterQuilt Brand Profiles Branding Discovery API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Public, machine-readable brand-profiles data surface published by CharacterQuilt. Each catalogued company exposes an HTML page at /branding/{slug} and a JSON profile at /branding/{slug}.json containing a branding extraction — color scheme and palette, typography and font stacks, spacing, component styles, imagery, personality, and design-system signals — extracted from the company's live website. Intended for agents, designers, and AI tools. Read-only and unauthenticated. Discovered via /llms.txt. Not an official specification.\n\nContact Support:\n Name: CharacterQuilt\n Email: hello@characterquilt.com",
+      "type": "text/plain"
+    }
+  }
+}

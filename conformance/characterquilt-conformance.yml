@@ -1,0 +1,108 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live probes 2026-08-13 of https://mcp.characterquilt.com/api/mcp,
+  https://mcp.characterquilt.com/.well-known/oauth-protected-resource,
+  https://characterquilt-review-beta.vercel.app/.well-known/*,
+  https://www.characterquilt.com/.well-known/*, plus repo artifacts
+note: >-
+  CharacterQuilt makes no published conformance or compliance claims anywhere — no
+  trust center, no security page, no certifications, no compliance section on the
+  site. Every assertion below was established by probing the wire or by reading a
+  spec already in this repo. No `Compliance` pointer is emitted because there is no
+  published compliance program to point at.
+standards:
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: >-
+    https://mcp.characterquilt.com/.well-known/oauth-protected-resource returns HTTP
+    200 application/json with resource, authorization_servers,
+    bearer_methods_supported and scopes_supported. The 401 from
+    /api/mcp carries WWW-Authenticate: Bearer resource_metadata="<that URL>", which
+    is the RFC 9728 challenge form.
+- id: mcp-authorization
+  name: MCP Authorization (OAuth 2.1 bearer over Streamable HTTP)
+  conforms: partial
+  evidence: >-
+    The resource server side is implemented correctly (401 + resource_metadata
+    challenge + published scopes). The discovery chain does not complete: the
+    advertised authorization server
+    https://characterquilt-review-beta.vercel.app serves no RFC 8414 metadata, so a
+    conforming client cannot reach an authorization or token endpoint.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: false
+  evidence: >-
+    https://characterquilt-review-beta.vercel.app/.well-known/oauth-authorization-server
+    returns HTTP 200 text/html (Next.js application shell), not JSON metadata. Same
+    for /.well-known/openid-configuration.
+- id: oidc-discovery
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: No /.well-known/openid-configuration document on any CharacterQuilt host
+    (404 on www; HTML shell on the advertised authorization server).
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    The MCP server errors with {"error":"unauthorized"} and content-type
+    application/json — not application/problem+json. The public brand-profiles
+    surface returns a plain Next.js 404 body ("The page could not be found").
+    Neither uses a problem+json envelope.
+- id: rfc9116
+  name: security.txt
+  conforms: false
+  evidence: https://www.characterquilt.com/.well-known/security.txt returns 404.
+- id: rfc8594
+  name: Sunset HTTP Header / deprecation signalling
+  conforms: false
+  evidence: No Sunset or Deprecation headers observed on any probed response; no
+    deprecation policy published.
+- id: rfc9110-conditional
+  name: HTTP conditional requests (ETag / Last-Modified)
+  conforms: true
+  evidence: >-
+    https://www.characterquilt.com/branding/stripe.json returns etag,
+    last-modified and cache-control: public, max-age=0, must-revalidate — a client
+    can revalidate rather than refetch 26 KB.
+- id: hsts
+  name: HTTP Strict Transport Security (RFC 6797)
+  conforms: true
+  evidence: 'strict-transport-security: max-age=63072000 on www.characterquilt.com
+    responses.'
+- id: cors
+  name: Cross-Origin Resource Sharing
+  conforms: true
+  evidence: 'access-control-allow-origin: * on the public brand-profiles JSON — the
+    data surface is deliberately browser-readable from any origin.'
+- id: llms-txt
+  name: llms.txt
+  conforms: true
+  evidence: >-
+    https://www.characterquilt.com/llms.txt returns HTTP 200, 350 KB, correct
+    llms.txt structure (H1, blockquote summary, H2 sections, link list). Captured at
+    llms/characterquilt-llms.txt.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    www.characterquilt.com and 401 on mcp.characterquilt.com. No card is served.
+- id: openapi
+  name: OpenAPI (provider-published)
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document exists on any CharacterQuilt host. Probed
+    /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs,
+    /redoc and /api/openapi.json against www.characterquilt.com and
+    characterquilt.com — all 404. api./app./docs./developer./dev. subdomains do not
+    resolve. The specs in openapi/ are API Evangelist descriptions of the observed
+    public data surface, not provider artifacts.
+compliance_programs: []
+certifications: []
+compliance_note: >-
+  The Enterprise pricing tier advertises "SSO & compliance controls" as a feature,
+  but CharacterQuilt names no framework (no SOC 2, ISO 27001, GDPR, HIPAA or
+  FedRAMP claim) and publishes no trust center, so there is nothing verifiable to
+  record.

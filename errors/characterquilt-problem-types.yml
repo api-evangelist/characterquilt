@@ -1,15 +1,61 @@
-generated: '2026-07-18'
-method: derived
-source: openapi/characterquilt-branding-openapi.yml
+generated: '2026-08-13'
+method: probed
+source: >-
+  live responses observed 2026-08-13 from https://www.characterquilt.com/branding/*
+  and https://mcp.characterquilt.com/api/mcp; plus openapi/ in this repo
 format: http-status
 note: >-
-  CharacterQuilt publishes no error reference. The brand-profiles surface is a plain
-  read API that returns a standard HTTP 404 when a slug is not catalogued; no
-  application/problem+json envelope is used. Derived from observed responses.
+  CharacterQuilt publishes no error reference. Two surfaces return two different,
+  undocumented error shapes, neither of which is RFC 9457 problem+json. Both were
+  observed on the wire; nothing below is invented. Upgraded from the 2026-07-18
+  derived round, which only knew about the public 404.
+rfc9457: false
+envelopes:
+- surface: public brand-profiles (www.characterquilt.com)
+  content_type: text/plain
+  shape: >-
+    Plain Next.js body: "The page could not be found  NOT_FOUND  <trace-id>" (79
+    bytes). Not JSON, not parseable, and the trace id is a platform identifier with
+    no documented support path.
+- surface: MCP agent runtime (mcp.characterquilt.com)
+  content_type: application/json
+  shape: '{"error":"<string>"}'
+  note: >-
+    A single string field. No code, no type URI, no detail, no correlation id in
+    the body. The only machine-actionable part of the 401 is the
+    WWW-Authenticate header, which is correct RFC 9728 form.
 problems:
 - status: 404
   title: Brand profile not found
   description: No brand profile exists for the requested company slug.
   remediation: >-
-    Verify the slug against the catalog in /llms.txt; slugs are lowercase and hyphenated.
-  source_operation: openapi/characterquilt-branding-openapi.yml#getBrandProfile
+    Verify the slug against the catalog in /llms.txt; slugs are lowercase and
+    hyphenated.
+  surface: public brand-profiles
+  content_type: text/plain
+  source_operation: openapi/characterquilt-branding-api-openapi.yml#getBrandProfile
+  observed: true
+- status: 401
+  title: Unauthorized
+  body: '{"error":"unauthorized"}'
+  description: >-
+    Returned by every anonymous request to the MCP server — GET /api/mcp, POST
+    tools/list, POST initialize, and every /.well-known path other than
+    oauth-protected-resource.
+  remediation: >-
+    Present an OAuth 2.1 bearer token in the Authorization header. Follow the
+    WWW-Authenticate resource_metadata pointer to
+    https://mcp.characterquilt.com/.well-known/oauth-protected-resource for the
+    required scopes. Note that the discovery chain currently dead-ends — see
+    authentication/characterquilt-authentication.yml.
+  surface: MCP agent runtime
+  content_type: application/json
+  headers:
+    www-authenticate: Bearer resource_metadata="https://mcp.characterquilt.com/.well-known/oauth-protected-resource"
+  observed: true
+gaps:
+- issue: no-error-reference
+  detail: >-
+    No error code registry, no documented status-code semantics, and no way for a
+    client to distinguish an unknown slug from a withdrawn one, or an expired token
+    from an insufficient scope — both collapse to {"error":"unauthorized"}.

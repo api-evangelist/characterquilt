@@ -1,0 +1,78 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live probes 2026-08-13 of https://www.characterquilt.com/{status,changelog,roadmap,security,trust},
+  https://characterquilt.statuspage.io/, status.characterquilt.com (NXDOMAIN),
+  https://www.characterquilt.com/blog, plus openapi/ in this repo
+note: >-
+  CharacterQuilt publishes no lifecycle commitments of any kind. Recorded as
+  measured absences with the URL and status behind each one. No `StatusPage` and no
+  `Deprecation` pointer is emitted, because neither exists.
+versioning:
+  policy_url: null
+  scheme: none
+  detail: >-
+    No API version appears in any path, header or document. Nothing distinguishes
+    today's brand-profile JSON shape from tomorrow's.
+deprecation:
+  policy_url: null
+  policy: none
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No deprecation policy, no RFC 8594 Sunset header, no Deprecation header
+    observed on any response from either host.
+  deprecated_operations: []
+status_page:
+  url: null
+  exists: false
+  evidence:
+  - url: https://www.characterquilt.com/status
+    status: 404
+  - url: https://status.characterquilt.com
+    status: NXDOMAIN
+  - url: https://characterquilt.statuspage.io/
+    status: 200
+    hit: false
+    note: >-
+      FALSE POSITIVE REJECTED. statuspage.io answers 200 for any unregistered
+      subdomain; this one renders Atlassian's own Statuspage marketing page
+      (<title>Real-Time Incident Communication with Statuspage | Atlassian</title>)
+      and the string "characterquilt" appears nowhere in the body. The machine
+      endpoint /api/v2/status.json 302-redirects to www.statuspage.io, which is the
+      no-such-page behaviour. There is no CharacterQuilt status page.
+changelog:
+  url: null
+  exists: false
+  evidence:
+  - url: https://www.characterquilt.com/changelog
+    status: 404
+  detail: >-
+    The blog (50+ marketing and research posts, HTTP 200) carries no dates and is
+    not a changelog. No release notes, no versioning announcements.
+roadmap:
+  url: null
+  exists: false
+  evidence:
+  - url: https://www.characterquilt.com/roadmap
+    status: 404
+sla:
+  url: null
+  published: false
+  detail: >-
+    No SLA, uptime commitment or support-response target is published. The Terms of
+    Service (https://www.characterquilt.com/terms, 200) is the only contractual
+    document on the site.
+support:
+  channel: mailto:hello@characterquilt.com
+  detail: >-
+    Email only. /support and /help both 404. There is no ticketing system,
+    community forum or developer support channel.
+stage:
+  company: Y Combinator Spring 2026; $13M raised
+  api_maturity: pre-documentation
+  detail: >-
+    The agent runtime is live and OAuth-protected but undocumented and unannounced;
+    the public brand-profiles surface is a marketing/data asset with no stated
+    lifecycle. This is a company whose machine surfaces are ahead of its developer
+    program, not behind it.

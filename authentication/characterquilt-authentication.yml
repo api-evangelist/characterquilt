@@ -1,0 +1,87 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live probes of https://mcp.characterquilt.com/api/mcp (401 + WWW-Authenticate),
+  https://mcp.characterquilt.com/.well-known/oauth-protected-resource (200), and
+  https://www.characterquilt.com/branding/{slug}.json (200, anonymous)
+note: >-
+  CharacterQuilt runs two surfaces with two completely different authentication
+  postures. The public brand-profiles data surface is unauthenticated and
+  CORS-open. The hosted MCP server is OAuth-protected and returns a spec-correct
+  RFC 9728 challenge. Neither surface has a published authentication guide; every
+  fact below was observed on the wire on 2026-08-13.
+surfaces:
+- name: Brand Profiles (public data surface)
+  base_url: https://www.characterquilt.com
+  auth: none
+  schemes: []
+  evidence:
+    url: https://www.characterquilt.com/branding/stripe.json
+    http_status: 200
+    note: >-
+      Returned 26 KB of JSON with no credential presented.
+      access-control-allow-origin: * — readable from any browser origin.
+      strict-transport-security: max-age=63072000.
+- name: CharacterQuilt MCP Server
+  base_url: https://mcp.characterquilt.com
+  endpoint: https://mcp.characterquilt.com/api/mcp
+  auth: oauth2
+  schemes:
+  - type: oauth2
+    name: mcpOAuth
+    profile: OAuth 2.1 bearer, as required by the MCP authorization spec
+    bearer_methods_supported:
+    - header
+    discovery:
+      protected_resource_metadata: https://mcp.characterquilt.com/.well-known/oauth-protected-resource
+      standard: RFC 9728
+      status: 200
+    challenge: >-
+      WWW-Authenticate: Bearer
+      resource_metadata="https://mcp.characterquilt.com/.well-known/oauth-protected-resource"
+    scopes:
+    - read:design_brain
+    - write:generated_artifacts
+    - publish:public_file
+    - read:agent_work
+    - write:agent_work
+    scopes_artifact: scopes/characterquilt-scopes.yml
+  evidence:
+    url: https://mcp.characterquilt.com/api/mcp
+    http_status: 401
+    body: '{"error":"unauthorized"}'
+    note: >-
+      Anonymous POST of jsonrpc tools/list and initialize both return 401 with the
+      RFC 9728 resource_metadata challenge header. GET returns the same. The server
+      is real and reachable; its tool schemas require an authenticated
+      introspection.
+findings:
+- id: rfc9728-implemented-correctly
+  good: true
+  detail: >-
+    The 401 carries a WWW-Authenticate: Bearer header with a resource_metadata
+    parameter, and that URL serves valid JSON metadata. This is the correct MCP
+    authorization handshake and most MCP servers in the catalog do not do it.
+- id: authorization-server-metadata-unreachable
+  good: false
+  detail: >-
+    The advertised authorization server is https://characterquilt-review-beta.vercel.app,
+    a Vercel PREVIEW deployment rather than a production identity host, and it does
+    not serve RFC 8414 metadata — /.well-known/oauth-authorization-server and
+    /.well-known/openid-configuration both return HTTP 200 with the Next.js HTML
+    application shell. A conforming MCP client that follows the discovery chain
+    cannot obtain an authorization or token endpoint, so the documented flow cannot
+    be completed by a third party.
+  evidence:
+  - url: https://characterquilt-review-beta.vercel.app/.well-known/oauth-authorization-server
+    http_status: 200
+    content_type: text/html
+  - url: https://characterquilt-review-beta.vercel.app/.well-known/openid-configuration
+    http_status: 200
+    content_type: text/html
+- id: no-published-auth-guide
+  good: false
+  detail: >-
+    CharacterQuilt publishes no developer portal, API reference or authentication
+    page. /developers, /docs, /docs/api and /api-docs all return 404 on
+    www.characterquilt.com. Everything above had to be probed.

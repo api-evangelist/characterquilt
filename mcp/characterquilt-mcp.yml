@@ -1,21 +1,87 @@
-generated: '2026-07-18'
-method: derived
-status: candidate
-source: openapi/characterquilt-branding-openapi.yml
+generated: '2026-08-13'
+method: probed
+status: published
+source: >-
+  https://mcp.characterquilt.com/api/mcp (401 + RFC 9728 challenge),
+  https://mcp.characterquilt.com/.well-known/oauth-protected-resource (200)
 note: >-
-  CharacterQuilt publishes no official MCP server. This is a candidate tool list derived
-  one-to-one from the public brand-profiles OpenAPI operations, so an agent could query
-  the brand-profiles surface via MCP.
+  CharacterQuilt runs a REAL hosted MCP server. It was missed on the first
+  enrichment round because nothing on www.characterquilt.com links to it and the
+  company publishes no developer portal — the mcp.characterquilt.com subdomain was
+  found by DNS enumeration, then confirmed by the server's own RFC 9728
+  protected-resource metadata, which names the endpoint and its OAuth scopes.
+  CharacterQuilt's YC engineering job posting independently describes "the API, CLI,
+  and MCP surfaces around our agent runtime". The tool list is OAuth-gated and is
+  therefore NOT recorded here — no tool names are invented.
+deployment:
+  mode: remote
+  endpoint: https://mcp.characterquilt.com/api/mcp
+  auth: oauth
+  verified: probed
 server:
-  name: characterquilt-branding
+  name: characterquilt
   transport: http
-tools:
-- name: get_brand_profile
-  description: Get the full machine-readable brand profile (colors, typography, logos, personality) for a company by slug.
-  source_operation: openapi/characterquilt-branding-openapi.yml#getBrandProfile
-- name: get_brand_profile_page
-  description: Get the HTML brand profile page for a company by slug.
-  source_operation: openapi/characterquilt-branding-openapi.yml#getBrandProfilePage
-- name: get_llms_index
-  description: List every catalogued company and the link to its brand profile.
-  source_operation: openapi/characterquilt-branding-openapi.yml#getLlmsIndex
+  host: mcp.characterquilt.com
+  fronted_by: cloudflare
+authorization:
+  scheme: oauth2
+  bearer_methods_supported:
+  - header
+  protected_resource_metadata: https://mcp.characterquilt.com/.well-known/oauth-protected-resource
+  standard: RFC 9728 (OAuth 2.0 Protected Resource Metadata)
+  authorization_servers:
+  - https://characterquilt-review-beta.vercel.app
+  scopes:
+  - read:design_brain
+  - write:generated_artifacts
+  - publish:public_file
+  - read:agent_work
+  - write:agent_work
+  scopes_artifact: scopes/characterquilt-scopes.yml
+tools: []
+tools_status: gated
+tools_note: >-
+  Anonymous POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} with Accept:
+  application/json, text/event-stream returns HTTP 401 {"error":"unauthorized"}.
+  The same for initialize. Real tool names and inputSchemas require an
+  authenticated introspection, which we do not have. The five OAuth scopes are the
+  only published description of what the server can do: they imply read access to a
+  per-customer brand model ("design brain"), read/write on agent runs, write on
+  generated creative artifacts, and a publish verb with an externally visible
+  consequence.
+derived_candidate:
+  note: >-
+    Retained from the 2026-07-18 round. These are NOT tools CharacterQuilt ships —
+    they are a one-to-one derivation from the public brand-profiles OpenAPI, kept
+    only to show the public data surface could be exposed as MCP. They are a
+    different surface from the hosted server above.
+  method: derived
+  source: openapi/characterquilt-branding-api-openapi.yml, openapi/characterquilt-discovery-api-openapi.yml
+  tools:
+  - name: get_brand_profile
+    description: Get the full machine-readable brand profile (colors, typography, logos,
+      personality) for a company by slug.
+    source_operation: openapi/characterquilt-branding-api-openapi.yml#getBrandProfile
+  - name: get_brand_profile_page
+    description: Get the HTML brand profile page for a company by slug.
+    source_operation: openapi/characterquilt-branding-api-openapi.yml#getBrandProfilePage
+  - name: get_llms_index
+    description: List every catalogued company and the link to its brand profile.
+    source_operation: openapi/characterquilt-discovery-api-openapi.yml#getLlmsIndex
+x-evidence:
+- url: https://mcp.characterquilt.com/api/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 401
+  response: '{"error":"unauthorized"}'
+  www_authenticate: Bearer resource_metadata="https://mcp.characterquilt.com/.well-known/oauth-protected-resource"
+  fetched: '2026-08-13'
+- url: https://mcp.characterquilt.com/.well-known/oauth-protected-resource
+  method: GET
+  http_status: 200
+  content_type: application/json
+  fetched: '2026-08-13'
+- url: https://www.ycombinator.com/companies/characterquilt/jobs/yCogh5G-staff-software-engineer-agent-infrastructure-and-reliability
+  http_status: 200
+  quote: the API, CLI, and MCP surfaces around our agent runtime
+  fetched: '2026-08-13'

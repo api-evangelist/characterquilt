@@ -1,0 +1,114 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live probes 2026-08-13 of https://www.characterquilt.com/branding/{slug}.json,
+  /llms.txt, /robots.txt and https://mcp.characterquilt.com/api/mcp; plus
+  openapi/, authentication/, scopes/, errors/ in this repo
+note: >-
+  CharacterQuilt publishes no API reference, no conventions guide and no developer
+  portal, so every convention below was observed on the wire rather than read from
+  documentation. Where a convention does not exist, that is recorded as null with a
+  note rather than left blank — the absences are the finding.
+surfaces:
+  public_data: https://www.characterquilt.com
+  agent_runtime: https://mcp.characterquilt.com/api/mcp
+authentication:
+  public_data:
+    style: none
+    detail: Unauthenticated, CORS-open (access-control-allow-origin *).
+  agent_runtime:
+    style: oauth2-bearer
+    header: 'Authorization: Bearer <token>'
+    discovery: RFC 9728 protected-resource metadata
+    detail: See authentication/characterquilt-authentication.yml and scopes/characterquilt-scopes.yml.
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  detail: >-
+    No idempotency key header is documented or observed. The public data surface is
+    read-only GET (idempotent by HTTP method, which is not the same thing as an
+    idempotency-key contract). The MCP server's write and publish scopes
+    (write:generated_artifacts, publish:public_file, write:agent_work) are exactly
+    the consequential operations an idempotency key protects, and CharacterQuilt's
+    own engineering job posting names "durable execution, idempotency, recovery" as
+    a core concern — but nothing about it is exposed to a client. No `Idempotency`
+    pointer is emitted: an internal implementation detail is not a published
+    contract.
+pagination:
+  style: none
+  detail: >-
+    No paginated collection exists on the public surface. The full catalog is
+    delivered as one 350 KB /llms.txt document and each brand profile is a single
+    keyed document at /branding/{slug}.json. There are no list endpoints, no page
+    or cursor parameters, and no Link headers.
+filtering_and_expansion:
+  supported: false
+  detail: >-
+    Query strings are actively discouraged — robots.txt disallows /*?* — and no
+    profile response varies by parameter. Field selection, expansion and sparse
+    fieldsets are absent; every profile returns the whole document (~26 KB for
+    /branding/stripe.json).
+metadata:
+  supported: false
+  detail: No customer-writable metadata surface on the public API.
+request_tracing:
+  request_id_header: x-vercel-id
+  detail: >-
+    Responses carry Vercel's x-vercel-id (e.g. iad1::ldx7m-1786638551856-...) and
+    Cloudflare's cf-ray on the MCP host. These are platform trace identifiers, not
+    a CharacterQuilt-issued request id, and no support process is documented for
+    quoting them.
+caching:
+  supported: true
+  headers:
+  - etag
+  - last-modified
+  - 'cache-control: public, max-age=0, must-revalidate'
+  - age
+  detail: >-
+    Conditional requests work. This is the single strongest runtime convention on
+    the public surface and the only one that saves a consumer real bytes.
+versioning:
+  style: none
+  detail: >-
+    No version in the path, no version header, no version negotiation. The OpenAPI
+    in this repo carries info.version 1.0 as an API Evangelist label, not a
+    provider-declared version. Changing the brand-profile JSON shape would be a
+    silent breaking change for every consumer.
+error_envelope:
+  public_data:
+    shape: plain text body
+    example: The page could not be found  NOT_FOUND  <trace-id>
+    content_type: text/plain
+    status_codes:
+    - 404
+  agent_runtime:
+    shape: '{"error":"<string>"}'
+    example: '{"error":"unauthorized"}'
+    content_type: application/json
+    status_codes:
+    - 401
+  rfc9457: false
+  detail: The two surfaces use two different, undocumented error shapes; neither is
+    problem+json.
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  detail: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After headers observed on any response
+    from either host, and no limits are documented. See
+    rate-limits/characterquilt-rate-limits.yml.
+content_negotiation:
+  detail: >-
+    Format is chosen by path extension, not by Accept header: /branding/{slug}
+    returns HTML, /branding/{slug}.json returns JSON. Responses carry
+    content-disposition: inline; filename="{slug}.json", which is static-file
+    serving behaviour rather than an API response.
+cross_links:
+- errors/characterquilt-problem-types.yml
+- lifecycle/characterquilt-lifecycle.yml
+- authentication/characterquilt-authentication.yml
+- scopes/characterquilt-scopes.yml
+- rate-limits/characterquilt-rate-limits.yml
