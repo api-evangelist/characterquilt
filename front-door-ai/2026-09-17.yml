@@ -1,0 +1,27 @@
+# Front Door AI Index — characterquilt — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: characterquilt
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.characterquilt.com
+  final_host: www.characterquilt.com
+  ownership: own
+  owner: characterquilt
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 12
+  host_score: 12
+  density: 11.29
+  words: 1063
+  tiers:
+    agentic: 0
+    core: 11
+    model: 1
+  ambiguous: 6
+  top_terms:
+    AI: 11
+    agent: 6
+    Anthropic: 1

@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CharacterQuilt Brand Profiles Branding Discovery API
+  title: CharacterQuilt Brand Profiles Discovery API
   version: '1.0'
-  description: Public, machine-readable brand-profiles data surface published by CharacterQuilt. Each catalogued company exposes an HTML page at /branding/{slug} and a JSON profile at /branding/{slug}.json containing a branding extraction — color scheme and palette, typography and font stacks, spacing, component styles, imagery, personality, and design-system signals — extracted from the company's live website. Intended for agents, designers, and AI tools. Read-only and unauthenticated. Discovered via /llms.txt. Not an official specification.
+  description: Public, machine-readable brand-profiles data surface published by CharacterQuilt.
   contact:
     name: CharacterQuilt
     email: hello@characterquilt.com

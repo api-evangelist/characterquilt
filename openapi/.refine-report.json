@@ -1,8 +1,7 @@
 {
   "provider": "characterquilt",
   "sources": [
-    "characterquilt-branding-api-openapi.yml",
-    "characterquilt-discovery-api-openapi.yml"
+    "_original/characterquilt-branding-openapi.yml"
   ],
   "outputs": [
     "characterquilt-branding-api-openapi.yml",
@@ -11,6 +10,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "characterquilt-branding-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "characterquilt-branding-openapi.yml: declared missing tag: Branding",
+    "characterquilt-branding-openapi.yml: declared missing tag: Discovery",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "characterquilt-branding-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "characterquilt-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
