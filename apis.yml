@@ -63,7 +63,6 @@ apis:
   name: CharacterQuilt Branding API
   description: The Branding API from CharacterQuilt — 2 operation(s) for branding.
   humanURL: https://www.characterquilt.com/llms.txt
-  baseURL: https://www.characterquilt.com
   tags:
   - Branding
   properties:
@@ -81,7 +80,6 @@ apis:
   name: CharacterQuilt Discovery API
   description: The Discovery API from CharacterQuilt — 1 operation(s) for discovery.
   humanURL: https://www.characterquilt.com/llms.txt
-  baseURL: https://www.characterquilt.com
   tags:
   - Discovery
   properties:

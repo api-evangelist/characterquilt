@@ -79,49 +79,6 @@ components:
           type: integer
         bytes:
           type: integer
-    BrandProfile:
-      type: object
-      description: A company's extracted brand identity profile.
-      properties:
-        name:
-          type: string
-          example: Zapier
-        slug:
-          type: string
-          example: zapier
-        domain:
-          type: string
-          example: http://zapier.com
-        sources:
-          type: array
-          items:
-            type: string
-          example:
-          - forbes_cloud_100
-          - yc
-        branding:
-          $ref: '#/components/schemas/Branding'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/BrandImage'
-        font_resources:
-          type: array
-          items:
-            type: object
-            properties:
-              family:
-                type: string
-              google_fonts_url:
-                type: string
-        google_fonts_css:
-          type: string
-        page_url:
-          type: string
-        agent_instructions:
-          type: string
-        page_markdown:
-          type: string
     Branding:
       type: object
       properties:
@@ -211,3 +168,46 @@ components:
               type: number
             overall:
               type: number
+    BrandProfile:
+      type: object
+      description: A company's extracted brand identity profile.
+      properties:
+        name:
+          type: string
+          example: Zapier
+        slug:
+          type: string
+          example: zapier
+        domain:
+          type: string
+          example: http://zapier.com
+        sources:
+          type: array
+          items:
+            type: string
+          example:
+          - forbes_cloud_100
+          - yc
+        branding:
+          $ref: '#/components/schemas/Branding'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandImage'
+        font_resources:
+          type: array
+          items:
+            type: object
+            properties:
+              family:
+                type: string
+              google_fonts_url:
+                type: string
+        google_fonts_css:
+          type: string
+        page_url:
+          type: string
+        agent_instructions:
+          type: string
+        page_markdown:
+          type: string
