@@ -1,0 +1,26 @@
+slug: characterquilt
+provider: CharacterQuilt
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Branding
+  spec_file: characterquilt-branding-api-openapi.yml
+  capability_id: BC-400.20
+  capability_id_l1: BC-400
+  capability_name: Brand Management
+  confidence: 0.75
+  evidence: 'GET /branding/{slug}.json  getBrandProfile  Get a company brand profile (JSON); schemas:
+    BrandImage, BrandProfile, Branding'
+  reason: Publishes machine-readable company brand profiles (brand imagery and identity attributes) used
+    for on-brand creative generation and brand validation — brand identity/asset stewardship. Read-only
+    public data surface, so confidence is moderate rather than high.

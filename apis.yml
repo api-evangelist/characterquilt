@@ -123,6 +123,9 @@ apis:
   - type: Authentication
     url: authentication/characterquilt-authentication.yml
 common:
+- type: CapabilityMap
+  url: capabilities/characterquilt-capability-edges.yml
+  name: CharacterQuilt Business Capability Map
 - type: MCPServer
   url: mcp/characterquilt-mcp.yml
 - type: Website
